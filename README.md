@@ -39,4 +39,3 @@ customerName string
 status       string   [ACTIVE/INACTIVE] Default: ACTIVE
 vision       string
 customerID   string   Reference from customer table
-

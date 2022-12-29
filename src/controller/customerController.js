@@ -48,6 +48,7 @@ exports.createCustomer = async function (req, res) {
         return res.status(500).send({ status: false, message: err.message })
     }
 }
+
 //============================================  GET CUSTOMER  =======================================================//
 
 exports.getCustomer = async function (req, res) {

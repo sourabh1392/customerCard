@@ -11,7 +11,6 @@ exports.isValidEmail = function (value) {
     let regex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/
     return regex.test(value)
 }
-
 exports.isValidPhone = (Mobile) => {
     return /^[6-9]\d{9}$/.test(Mobile)
 }

@@ -2,7 +2,6 @@ const express=require("express")
 const mongoose=require("mongoose")
 const route=require("./route/route")
 const app=express()
-
 mongoose.set('strictQuery', false)
 
 app.use(express.json())

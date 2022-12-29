@@ -20,7 +20,6 @@ exports.createCard = async function (req, res) {
 
         if (!isValidString(customerName))
             return res.status(400).send({ status: false, message: "Please provide valid customerName" })
-
         status = status.toUpperCase()
         if (status) {
             if (status !== "ACTIVE" || status == "INACTIVE") {

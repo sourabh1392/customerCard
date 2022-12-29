@@ -3,7 +3,6 @@ const router = express.Router()
 const { createCustomer, getCustomer, deleteCustomer } = require("../controller/customerController")
 const { createCard, getCardDetails } = require("../controller/cardController")
 
-
 //=================================== CUSTOMER API's ======================================//
 
 router.post("/customer", createCustomer)
