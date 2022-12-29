@@ -27,7 +27,7 @@ const cardSchema=new mongoose.Schema({
         trim:true
     },
     customerId:{
-        type:ObjectId,
+        type:String,
         ref:"Customer",
         required:true
     }

@@ -1,3 +1,4 @@
+const shortID=require('shortid')
 const customerModel = require("../models/customerModel")
 const { isValidObjectId, isValidPhone, isValidDate, isValidEmail, isValidString, isValidCustomerId } = require("../validation/validation")
 
@@ -39,9 +40,9 @@ exports.createCustomer = async function (req, res) {
 
         if (!address) return res.status(400).status({ status: false, message: "please enter address" })
 
-        if (!customerID) return res.status(400).status({ status: false, message: "please enter customerId" })
-        if (!isValidCustomerId(customerID)) return res.status(400).status({ status: false, message: "please enter valid customerId" })
-        
+        const customerId=shortID.generate(emailID)
+        data.customerID=customerId
+
         const customer = await customerModel.create(data)
         return res.status(201).send({ status: true, message: "Successfully Created", data: customer })
     }

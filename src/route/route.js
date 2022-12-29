@@ -14,4 +14,11 @@ router.delete("/customer/:customerId", deleteCustomer)
 router.post("/card", createCard)
 router.get("/card", getCardDetails)
 
+
+//============================================================================================
+
+router.all("/*",async (req,res)=>{
+    res.status(404).send({Status:false,msg:"Invalid request"})
+})
+
 module.exports = router

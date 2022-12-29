@@ -1,3 +1,4 @@
+const shortID=require("shortid")
 const cardModel = require("../models/cardModel")
 const { isValidObjectId, isValidCardNumber, isValidString } = require("../validation/validation")
 
@@ -29,7 +30,10 @@ exports.createCard = async function (req, res) {
             }
         }
         
-        if (!isValidObjectId(customerID.trim())) return res.status(400).send({ status: false, message: "Please provide valid customerId" })
+        if (!customerID) return res.status(400).send({ status: false, message: "Please provide customerId" })
+        if(!shortID.isValid(customerID)){
+            return res.status(400).send({status:false, message:"Enter valid CustomerId"})
+        }
 
         const cardCreation = await cardModel.create(data)
         return res.status(201).send({ status: true, data: cardCreation ,message:"Successfully created"})
