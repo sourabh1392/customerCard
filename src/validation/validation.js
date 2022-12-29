@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 const moment = require("moment")
 
-//=========================================VALIDATIONS=====================================================//
 
 exports.isValidObjectId = (objectId) => {
     return mongoose.Types.ObjectId.isValid(objectId)

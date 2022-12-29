@@ -21,12 +21,14 @@ exports.createCard = async function (req, res) {
         if (!isValidString(customerName))
             return res.status(400).send({ status: false, message: "Please provide valid customerName" })
         status = status.toUpperCase()
+
         if (status) {
-            if (status !== "ACTIVE" || status == "INACTIVE") {
+            status=status.toUpperCase()
+            if (status !== "ACTIVE" || status !== "INACTIVE") {
                 return res.status(400).send({ status: false, message: "Please provide valid status" })
             }
         }
-
+        
         if (!isValidObjectId(customerID.trim())) return res.status(400).send({ status: false, message: "Please provide valid customerId" })
 
         const cardCreation = await cardModel.create(data)
@@ -43,6 +45,9 @@ exports.createCard = async function (req, res) {
 exports.getCardDetails = async function (req, res) {
     try {
         const fetchData = await cardModel.find({ status: "ACTIVE" })
+        if(!fetchData){
+            return res.status(404).send({status:false,message:"No Details Found"})
+        }
         return res.status(200).send({ status: true, message:"data details",data:fetchData})
     }
     catch (error) {

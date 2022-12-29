@@ -17,32 +17,33 @@ exports.createCustomer = async function (req, res) {
 
         if (!lastName) return res.status(400).send({ status: false, message: "last name is mandatory" })
         if (!isValidString(lastName)) return res.status(400).send({ status: false, message: "please enter a valid last name" })
-
+        
         if (!mobileNumber) return res.status(400).send({ status: false, message: "Mobile Number is mandatory" })
         if (!isValidPhone(mobileNumber)) return res.status(400).send({ status: false, msg: "please provide a valid mobile number" })
+        
+        let findMobile = await customerModel.findOne({ mobileNumber: mobileNumber })
+        if (findMobile) {
+            return res.status(400).send({ status: false, message: "mobile number already exists" })
+        }
 
         if (!DOB) return res.status(400).send({ status: false, message: "DOB is mandatory" })
         if (!isValidDate(DOB)) return res.status(400).send({ status: false, message: "please enter a valid DOB" })
 
         if (!emailID) return res.status(400).send({ status: false, message: "emailId is mandatory" })
         if (!isValidEmail(emailID)) return res.status(400).send({ satus: false, message: "please enter a valid emailId" })
+        
+        let findEmail = await customerModel.findOne({ emailID: emailID })
+        if (findEmail) {
+            return res.status(400).send({ status: false, message: "emailId  already exists" })
+        }
 
         if (!address) return res.status(400).status({ status: false, message: "please enter address" })
 
         if (!customerID) return res.status(400).status({ status: false, message: "please enter customerId" })
         if (!isValidCustomerId(customerID)) return res.status(400).status({ status: false, message: "please enter valid customerId" })
         
-        let findEmail = await customerModel.findOne({ emailID: emailID })
-        if (findEmail) {
-            return res.status(400).send({ status: false, message: "emailId  already exists" })
-        }
-        let findMobile = await customerModel.findOne({ mobileNumber: mobileNumber })
-        if (findMobile) {
-            return res.status(400).send({ status: false, message: "mobile number already exists" })
-        }
-        
         const customer = await customerModel.create(data)
-        return res.status(201).send({ status: true, message: "Successfully created", data: customer })
+        return res.status(201).send({ status: true, message: "Successfully Created", data: customer })
     }
     catch (err) {
         return res.status(500).send({ status: false, message: err.message })
@@ -54,7 +55,10 @@ exports.createCustomer = async function (req, res) {
 exports.getCustomer = async function (req, res) {
     try {
         const customer = await customerModel.find({ status: "ACTIVE" })
-        return res.status(200).send({ status: true, message: "Customer details data",data:customer })
+        if(!customer){
+            return res.status(404).send({status:false,message:"No Details Found"})
+        }
+        return res.status(200).send({ status: true, message: "Customer Data",data:customer })
     }
     catch (error) {
         return res.status(500).send({ status: false, message: error.message })
@@ -72,7 +76,7 @@ exports.deleteCustomer = async function (req, res) {
         if (!findCustomer) { return res.status(404).send({ status: false, message: "customer not found" }) }
 
         const deleteData=await customerModel.findOneAndUpdate({ _id: customerId }, { status: "INACTIVE" },{new:true})
-        return res.status(200).send({ status: true, message: "deleted Succesfully" ,data:deleteData})
+        return res.status(200).send({ status: true, message: "Deleted Succesfully" ,data:deleteData})
     }
     catch (error) {
         return res.status(500).send({ status: false, message: error.message })

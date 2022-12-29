@@ -30,6 +30,7 @@ const customerSchema=new mongoose.Schema({
     },
     status:{
         type:String,
+        default:"ACTIVE",
         enum:["ACTIVE","INACTIVE"],
         trim:true
     }
